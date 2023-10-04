@@ -1,0 +1,15 @@
+#include "tokenizer.h"
+
+int main() {
+  puts("Welcome to the Tokenizer!");
+
+  while(1) {
+
+    fputs("Select an option (Input String = s, Print History = h, Quit = q)", stdout);
+    fflush(stdout);
+
+    int input;
+    int charNum = 0;
+    char inputStr[20];
+
+    while 
