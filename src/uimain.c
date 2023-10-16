@@ -1,16 +1,20 @@
 #include "tokenizer.h"
+#include "history.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 int main() {
-  puts("Welcome to the Tokenizer!");
 
-  while(1) {
+    struct s_List *historyList = init_history();
+  
+    while(1) {
 
-    fputs("Select an option (Input String = s, Print History = h, Quit = q)\n> ", stdout);
-    fflush(stdout);
-
+    printf("Select an option (Input String = s, Print History = h, Quit = q)\n");
+    
     int input;
     int charNum = 0;
-    char inputStr[20];
+    int c;
+    char *inputStr = malloc(30 * sizeof(char));
     char **tokens;
     
     while ((c = getchar()) == '\n'); /* ignore newlines */
@@ -20,23 +24,24 @@ int main() {
     // Given the user answer, select which method to call
     switch (c) {
     case 's':
-      puts("You chose to input a string, enter it below:\n> ");
-      scanf('%s', w);
-      tokens = tokenize(w);
-      print_token_array(tokens);
+      printf("You chose to input a string, enter it below:\n> ");
+      while (getchar() !='\n')
+	continue;
+      scanf("%[^\n]s", inputStr);
+      printf("you inputed: %s\n", inputStr);
+      tokens = tokenize(inputStr);
+      while (*tokens){
+	add_history(historyList,*tokens);
+	tokens++;
+      }
       break;
     case 'h':
       puts("You selected history:");
-      goto done;
-      break;
-    case 'w':
-      puts("You selected word:");
-      puts("Enter a word:");
-      scanf("%s", w);
-      print_word_myfont(w);
+      print_history(historyList);
       break;
     case 'q':
       puts("Bye!");
+      free_history(historyList);
       goto done; 		/* terminate */
     case '\n':
       break;
